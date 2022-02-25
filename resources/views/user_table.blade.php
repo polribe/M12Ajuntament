@@ -28,14 +28,18 @@
 					<td>{{$user->rol_id}}</td>
 					<td>{{$user->dni}}</td>
 
+					<!--Si l'usuari de la fila es rol 2 o 3, et dona opcip a eliminar o editar-->
 					@if($user->rol_id == 2 || $user->rol_id == 3)
-						<td><a href="{{route('user.delete', $user)}}"">Delete</a> &nbsp <a href="{{route('user.edit', $user)}}">Edit</a></td>
+						<td><a href="{{route('user.delete', $user)}}">Delete</a> &nbsp <a href="{{route('user.edit', $user)}}">Edit</a></td>
 					@endif
 
+
+					<!--Si l'usuari de la fila es rol 1, mira si es el loggejat, i en cas de que no sigui ell mateix no et dona opcio a actuar sobre aquell usuari-->
 					@if($user->rol_id == 1 && Auth::user()->id !=  $user->id)
 						<td>No Permission</td>
 					@endif
 
+					<!--Si l'usuari de la fila es el mateix que esta loggejat, et dona opcio a editar-->
 					@if(Auth::user()->id ==  $user->id)
 						<td><a href=''>Edit</a></td>
 					@endif

@@ -38,10 +38,16 @@ class ReservaController extends Controller
      */
     public function store(StoreReservaRequest $request)
     {
+        //controla que no s'injecti per l'input
+        $request -> validate([
+            'plazas' => 'required|integer|between:1,5',
+        ]);
 
+        //mira si hi ha una reserva amb les mateixes caracteristiques, en aquest cas redirecciona a la pagina d'error
         if (Reserva::where('user_id', $request->input('user_id'))->where('evento_id', $request->input('evento_id'))->exists()){
                 return view('paginaerror');
         }
+        //en cas contrari, desa la reserva i redirecciona a la pagina de reserva correcta
         else{
             Reserva::create([
                 'user_id'=>$request->input('user_id'),
@@ -94,6 +100,8 @@ class ReservaController extends Controller
      */
     public function destroy(Reserva $reserva)
     {
+        //elimina la reserva desitjat i redirecciona de nou a la taula de reserves (d'un usuari)
+
         $reserva->delete();
         return redirect()->route('reserva_table');
     }

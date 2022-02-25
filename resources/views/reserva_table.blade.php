@@ -19,6 +19,7 @@
 
 
 		<tbody>	
+			<!--Crea tantes files de la taula com reserves hi hagi de l'usuari loggejat-->
 			@foreach(\App\Models\Reserva::where('user_id',Auth::user()->id)->get() as $reserva)
 				<tr>
 					<td>{{$reserva->evento->nombre}}</td>

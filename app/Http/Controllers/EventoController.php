@@ -15,24 +15,24 @@ class EventoController extends Controller
      */
     public function index()
     {
+        //envia a la vista del llistat d'esdevenimetns tots els diferents esdeveniments
         $eventos = Evento::all();
-        //print_r(compact('eventos'));
         return view("evento.index", compact("eventos"));
     }
 
 
     public function welcome1()
     {
+        //retorna la vista welcome1 passant tots els esdeveniments, que despres nomes s'agafaran els primers 3 de la BD
         $eventos = Evento::all();
-        //print_r(compact('eventos'));
         return view("welcome1", compact("eventos"));
     }
 
 
     public function table()
     {
+        //agafa tots els esdeveniments i retorna la taula d'esdeveniments enviant-los tots ($eventos)
         $eventos = Evento::all();
-        //print_r(compact('eventos'));
         return view("evento.table", compact("eventos"));
     }
 
@@ -43,6 +43,7 @@ class EventoController extends Controller
      */
     public function create()
     {
+         //retorna la vista de formulari de creacio d'esdeveniment
          return view("evento.create");
     }
 
@@ -54,11 +55,19 @@ class EventoController extends Controller
      */
     public function store(StoreEventoRequest $request)
     {
-        /*$image = $request->input('image');
-        $image = explode('/', $image);
-        $image = 'storage/' .end($image);*/
+
+
+        //desem la imatge que s'ha pujat a la carpeta public (on s'ha linkejat storage previament)
         $image = $request->file('image')->store('', 'public');
 
+        //es valida el tipus de dada de camps crucials
+        $request->validate([
+            'nombre' => 'required',
+            'precio' => 'required|number',
+            'aforo' => 'required|integer',
+        ]);
+
+        //es crea l'esdeveniment passant les dades que s'han enviat des del formulari
         Evento::create([
                 'nombre'=>$request->input('nombre'),
                 'user_id'=>$request->input('user_id'),
@@ -81,6 +90,7 @@ class EventoController extends Controller
      */
     public function show(Evento $evento)
     {
+        //es mostra la vista show passant l'esdeveniment desitjat
         return view('evento.show', ['evento' => $evento]);
     }
 
@@ -92,6 +102,7 @@ class EventoController extends Controller
      */
     public function edit(Evento $evento)
     {
+        //envia les dades de l'esdeveniment que es vol editar a la pagina del formulari
         return view('evento.edit', compact('evento'));
     }
 
@@ -104,6 +115,8 @@ class EventoController extends Controller
      */
     public function update(UpdateEventoRequest $request, Evento $evento)
     {
+
+       //agafa les dades que s'han passat del formulari i les desa de nou, despres redirecciona a la taula d'esdeveniments
        $evento->nombre = $request->input('nombre');
        $evento->fecha = $request->input('fecha');
        $evento->hora = $request->input('hora');
@@ -118,6 +131,7 @@ class EventoController extends Controller
 
     public function reserva(Evento $evento)
     {
+        //es mostra el formulari de reserva passant l'esdeveniment desitjat
         return view('evento.reserva', ['evento' => $evento]);
     }
 
@@ -129,10 +143,12 @@ class EventoController extends Controller
      */
     public function destroy(Evento $evento)
     {
+        //elimina totes les reserves referents a l'esdeveniment que es vol eliminar
         foreach ($evento->reservas as $reserva) {
             $reserva->delete();
         }
 
+        //un cop fet aixo, elimina l'esdeveniment desitjat i redirecciona a la taula d'esdeveniments
         $evento->delete();
         return redirect()->route('evento.table');
     }

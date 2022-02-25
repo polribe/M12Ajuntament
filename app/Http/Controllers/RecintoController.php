@@ -58,6 +58,7 @@ class RecintoController extends Controller
      */
     public function edit(Recinto $recinto)
     {
+        //retorna la vista de formulari d'edicio de recinte
         return view('recinto.edit', compact('recinto'));
     }
 
@@ -70,6 +71,7 @@ class RecintoController extends Controller
      */
     public function update(UpdateRecintoRequest $request, Recinto $recinto)
     {
+       //agafa les dades que s'han passat del formulari i les desa de nou, despres redirecciona a la taula de recintes
        $recinto->nombre = $request->input('nombre');
        $recinto->direccion = $request->input('direccion');
        $recinto->superficie = $request->input('superficie');
@@ -87,6 +89,8 @@ class RecintoController extends Controller
      */
     public function destroy(Recinto $recinto)
     {
+        //elimina el recinte desitjat i redirecciona de nou a la taula de recintes
+
         $recinto->delete();
         return redirect()->route('recinto_table');
     }

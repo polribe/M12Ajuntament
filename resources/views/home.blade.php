@@ -100,13 +100,15 @@ body {
       <div class="main">
          <div class="col-md-6 col-sm-12">
             <div class="login-form">
+
+                <!--Mira si hi ha una sessio activa-->
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
                     </div>
                 @endif
 
-
+                <!--Mostra unes opcions concretes si el rol de l'usuari loggejat es 1-->
                 @if(Auth::user()->rol_id == 1)
                     <a href="{{route('evento.create')}}"><button type="submit" class="btn btn-secondary">
                         Crea un Esdeveniment    
@@ -128,7 +130,7 @@ body {
                     <a href="{{ route('recinto_table') }}"><button type="submit" class="btn btn-secondary">
                         Llistat de Recintes
                     </button></a>   
-                    <a href="{{route('reserva_table, Auth::user()->id')}}"><button type="submit" class="btn btn-secondary">
+                    <a href="{{route('reserva_table', Auth::user()->id)}}"><button type="submit" class="btn btn-secondary">
                         Les meves Reserves
                     </button></a>
                     <a href="{{route('welcome1')}}"><button type="submit" class="btn btn-secondary">
@@ -138,9 +140,9 @@ body {
 
                 @endif
 
-
+                <!--Mostra unes opcions concretes si el rol de l'usuari loggejat es 2-->
                 @if(Auth::user()->rol_id == 2)
-                    <a href="{{route('reserva_table, Auth::user()->id')}}"><button type="submit" class="btn btn-secondary">
+                    <a href="{{route('reserva_table', Auth::user()->id)}}"><button type="submit" class="btn btn-secondary">
                         Les meves Reserves
                     </button></a>
                     <a href="{{route('welcome1')}}"><button type="submit" class="btn btn-secondary">
@@ -149,7 +151,7 @@ body {
                     
                 @endif
 
-
+                <!--Mostra unes opcions concretes si el rol de l'usuari loggejat es 3-->
                 @if(Auth::user()->rol_id == 3)
                     <a href="{{route('evento.create')}}"><button type="submit" class="btn btn-secondary">
                         Crea un Esdeveniment    

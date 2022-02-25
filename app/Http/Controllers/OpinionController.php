@@ -36,10 +36,13 @@ class OpinionController extends Controller
      */
     public function store(StoreOpinionRequest $request)
     {
+        //quan es vol desar una opinio, primer mira si ja n'hi ha una, en aquest cas mostra la pagina d'error
         
         if (Opinion::where('user_id', $request->input('user_id'))->where('evento_id', $request->input('evento_id'))->exists()){
                 return view('paginaerror_opinion');
         }
+
+        //en cas contrari, desa la opinio i retorna la vista d'opinio correcta
         else{
             Opinion::create([
                 'user_id'=>$request->input('user_id'),
@@ -94,6 +97,7 @@ class OpinionController extends Controller
      */
     public function destroy(Opinion $opinion)
     {
+        //elimina la opinio desitjada i redirecciona de nou a la taula d'opinions
         $opinion->delete();
         return redirect()->route('opinion_table');
     }

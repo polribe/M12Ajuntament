@@ -28,30 +28,39 @@ class HomeController extends Controller
      */
     public function index()
     {
+        //retorna la vista del dashboard de usuari
         return view('home');
     }
 
     public function reservas_table()
     {
+        //agafa totes les reserves i les mostra a la taula de reserves, posteriorment a la vista es filtrara per l'usuari
         $reservas = Reserva::all();
-        //print_r(compact('eventos'));
         return view("reserva_table", compact("reservas"));
 
     }
 
     public function opinions_table()
     {
+        //agafa totes les opinions i les mostra a la taula d'opinions
         $opinions = Opinion::all();
-        //print_r(compact('eventos'));
         return view("opinion_table", compact("opinions"));
 
     }
 
     public function recintos_table()
     {
+        //agafa tots els recintes i els mostra a la taula de recintes
         $recintos = Recinto::all();
-        //print_r(compact('eventos'));
         return view("recinto_table", compact("recintos"));
+
+    }
+
+    public function users_table()
+    {
+        //agafa tots els usuaris i els mostra a la taula de usuaris
+        $users = User::all();
+        return view("user_table", compact("users"));
 
     }
 }

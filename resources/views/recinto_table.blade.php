@@ -19,6 +19,7 @@
 		</thead>
 
 		<tbody>	
+			<!--Crea tantes files de la taula com recintes hi hagi-->
 			@foreach($recintos as $recinto)
 				<tr>
 					<td>{{$recinto->id}}</td>
